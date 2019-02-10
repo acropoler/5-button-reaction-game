@@ -1,0 +1,582 @@
+#include <Adafruit_NeoPixel.h>
+//still sorting out color updates when hitting 6 points on either player
+int P1Score=0;
+int P2Score=0;
+unsigned long beginTimer = 0;
+int Value;
+int holder = 0;
+int RandomDelay;
+int ANALOG;
+int ANALOG2;
+String initialValue;
+int singleValue;
+ Adafruit_NeoPixel strip = Adafruit_NeoPixel(20, 6, NEO_GRB + NEO_KHZ800);
+ Adafruit_NeoPixel MainLED = Adafruit_NeoPixel(2, 7, NEO_GRB + NEO_KHZ800);
+void setup() {
+  pinMode(4, OUTPUT); //speaker pin
+  strip.begin();
+  MainLED.begin();
+  //strip.setPixelColor(0, 100,0,0);
+  //strip.setPixelColor(10, 0,0,100);
+  strip.show(); 
+  Serial.begin(9600);
+  unsigned long currentMillis = millis();
+ do
+ {
+currentMillis = millis();
+ANALOG = analogRead(0);
+ANALOG2 = analogRead(1);
+Serial.println(ANALOG);
+Serial.println(ANALOG2);
+MainLED.setPixelColor(0, 50, 0,0);
+MainLED.setPixelColor(1, 50, 0,0);
+MainLED.show();
+delay(150);
+MainLED.setPixelColor(0, 0, 50,0);
+MainLED.setPixelColor(1, 0, 50,0);
+MainLED.show();
+delay(150);
+MainLED.setPixelColor(0, 0, 0,50);
+MainLED.setPixelColor(1, 0, 0,50);
+MainLED.show();
+delay(150);
+MainLED.setPixelColor(0, 50, 50,0);
+MainLED.setPixelColor(1, 50, 50,0);
+MainLED.show();
+delay(150);
+MainLED.setPixelColor(0, 50, 50,50);
+MainLED.setPixelColor(1, 50, 50,50);
+MainLED.show();
+delay(150);
+ } while (ANALOG <991);
+  initialValue = currentMillis;
+  Serial.print("Value= ");
+  Serial.println(initialValue.charAt(0));
+  singleValue = initialValue.charAt(0);
+  singleValue =(singleValue %5);
+  if (singleValue==0)
+  {
+   singleValue = 1;
+  }
+  if (singleValue>5)
+  {
+    singleValue==5;
+  }
+  Value = singleValue;
+  MainLED.setPixelColor(0, 0, 0,0);
+MainLED.setPixelColor(1, 0, 0,0);
+MainLED.show();
+delay(3000);
+  switch (Value)
+  {
+case 1:
+MainLED.setPixelColor(0, 100, 0,0);
+MainLED.setPixelColor(1, 100, 0,0);
+ MainLED.show();
+break;
+case 2:
+MainLED.setPixelColor(0, 0, 100,0);
+MainLED.setPixelColor(1, 0, 100,0);
+ MainLED.show();
+break;
+case 3:
+MainLED.setPixelColor(0, 0,0,100);
+MainLED.setPixelColor(1, 0,0,100);
+ MainLED.show();
+break;
+case 4:
+MainLED.setPixelColor(0, 100,100,0);
+MainLED.setPixelColor(1, 100,100,0);
+ MainLED.show();
+break;
+case 5:
+MainLED.setPixelColor(0, 100,100,100);
+MainLED.setPixelColor(1, 100,100,100);
+ MainLED.show();
+break;
+  }
+}
+
+void loop() {
+
+if (Value==0)
+{
+  delay(400);
+  Value = random(1,6);
+  Serial.println(Value);
+  switch (Value)
+  {
+case 1:
+MainLED.setPixelColor(0, 100, 0,0);
+MainLED.setPixelColor(1, 100, 0,0);
+ MainLED.show();
+break;
+case 2:
+MainLED.setPixelColor(0, 0, 100,0);
+MainLED.setPixelColor(1, 0, 100,0);
+ MainLED.show();
+break;
+case 3:
+MainLED.setPixelColor(0, 0,0,100);
+MainLED.setPixelColor(1, 0,0,100);
+ MainLED.show();
+break;
+case 4:
+MainLED.setPixelColor(0, 100,100,0);
+MainLED.setPixelColor(1, 100,100,0);
+ MainLED.show();
+break;
+case 5:
+MainLED.setPixelColor(0, 100,100,100);
+MainLED.setPixelColor(1, 100,100,100);
+ MainLED.show();
+break;
+  }
+}
+ANALOG = analogRead(0);
+ANALOG2 = analogRead(1);
+//RED
+if ((Value==1) && (ANALOG>991)&&(ANALOG<1048))
+{
+ // Serial.println("Red pressed");
+MainLED.setPixelColor(0, 100,0,0);
+MainLED.setPixelColor(1, 100,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 100,0,0);
+MainLED.setPixelColor(1, 100,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+tone(4,392,35);
+  delay(35);
+  tone(4,784,35);
+  delay(35);
+  tone(4,1568,35);
+  delay(35);
+  noTone(4);
+      delay(50);
+
+P1Score=P1Score+1;
+UpdateP1();
+Value=0;
+}
+if ((Value==1) && (ANALOG2>991)&&(ANALOG2<1048))
+{
+  //Serial.println("Red pressed");
+MainLED.setPixelColor(0, 100,0,0);
+MainLED.setPixelColor(1, 100,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 100,0,0);
+MainLED.setPixelColor(1, 100,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+tone(4,392,35);
+  delay(35);
+  tone(4,784,35);
+  delay(35);
+  tone(4,1568,35);
+  delay(35);
+  noTone(4);
+      delay(50);
+
+P2Score=P2Score+1;
+UpdateP1();
+Value=0;
+}
+if ((Value==2) && (ANALOG>500)&&(ANALOG<540))
+{
+ // Serial.println("Green pressed");
+MainLED.setPixelColor(0, 0,100,0);
+MainLED.setPixelColor(1, 0,100,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,100,0);
+MainLED.setPixelColor(1, 0,100,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+tone(4,392,35);
+  delay(35);
+  tone(4,784,35);
+  delay(35);
+  tone(4,1568,35);
+  delay(35);
+  noTone(4);
+      delay(50);
+
+P1Score=P1Score+1;
+UpdateP1();
+Value=0;
+}
+if ((Value==2) && (ANALOG2>500)&&(ANALOG2<540))
+{
+  //Serial.println("Green pressed");
+MainLED.setPixelColor(0, 0,100,0);
+MainLED.setPixelColor(1, 0,100,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,100,0);
+MainLED.setPixelColor(1, 0,100,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+tone(4,392,35);
+  delay(35);
+  tone(4,784,35);
+  delay(35);
+  tone(4,1568,35);
+  delay(35);
+  noTone(4);
+      delay(50);
+
+P2Score=P2Score+1;
+UpdateP1();
+Value=0;
+}
+if ((Value==3) && (ANALOG>946)&&(ANALOG<990))
+{
+ // Serial.println("Blue pressed");
+MainLED.setPixelColor(0, 0,0,100);
+MainLED.setPixelColor(1, 0,0,100);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,100);
+MainLED.setPixelColor(1, 0,0,100);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+tone(4,392,35);
+  delay(35);
+  tone(4,784,35);
+  delay(35);
+  tone(4,1568,35);
+  delay(35);
+  noTone(4);
+      delay(50);
+
+P1Score=P1Score+1;
+UpdateP1();
+Value=0;
+}
+if ((Value==3) && (ANALOG2>946)&&(ANALOG2<990))
+{
+  //Serial.println("Blue pressed");
+MainLED.setPixelColor(0, 0,0,100);
+MainLED.setPixelColor(1, 0,0,100);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,100);
+MainLED.setPixelColor(1, 0,0,100);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+tone(4,392,35);
+  delay(35);
+  tone(4,784,35);
+  delay(35);
+  tone(4,1568,35);
+  delay(35);
+  noTone(4);
+      delay(50);
+
+P2Score=P2Score+1;
+UpdateP1();
+Value=0;
+}
+if ((Value==4) && (ANALOG>900)&&(ANALOG<945))
+{
+  //yellow
+MainLED.setPixelColor(0,100,100,0);
+MainLED.setPixelColor(1,100,100,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0,100,100,0);
+MainLED.setPixelColor(1,100,100,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+tone(4,392,35);
+  delay(35);
+  tone(4,784,35);
+  delay(35);
+  tone(4,1568,35);
+  delay(35);
+  noTone(4);
+      delay(50);
+
+P1Score=P1Score+1;
+UpdateP1();
+Value=0;
+}
+if ((Value==4) && (ANALOG2>900)&&(ANALOG2<945))
+{ //yellow
+MainLED.setPixelColor(0,100,100,0);
+MainLED.setPixelColor(1,100,100,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0,100,100,0);
+MainLED.setPixelColor(1,100,100,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+tone(4,392,35);
+  delay(35);
+  tone(4,784,35);
+  delay(35);
+  tone(4,1568,35);
+  delay(35);
+  noTone(4);
+      delay(50);
+
+P2Score=P2Score+1;
+UpdateP1();
+Value=0;
+}
+if ((Value==5) && (ANALOG>650)&&(ANALOG<750))
+{ //white
+MainLED.setPixelColor(0,100,100,100);
+MainLED.setPixelColor(1,100,100,100);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0,100,100,100);
+MainLED.setPixelColor(1,100,100,100);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+tone(4,392,35);
+  delay(35);
+  tone(4,784,35);
+  delay(35);
+  tone(4,1568,35);
+  delay(35);
+  noTone(4);
+      delay(50);
+
+P1Score=P1Score+1;
+UpdateP1();
+Value=0;
+}
+
+if ((Value==5) && (ANALOG2>650)&&(ANALOG2<750))
+{ //white
+MainLED.setPixelColor(0,100,100,100);
+MainLED.setPixelColor(1,100,100,100);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0,100,100,100);
+MainLED.setPixelColor(1,100,100,100);
+MainLED.show();
+delay(200);
+MainLED.setPixelColor(0, 0,0,0);
+MainLED.setPixelColor(1, 0,0,0);
+MainLED.show();
+tone(4,392,35);
+  delay(35);
+  tone(4,784,35);
+  delay(35);
+  tone(4,1568,35);
+  delay(35);
+  noTone(4);
+      delay(50);
+
+P2Score=P2Score+1;
+UpdateP1();
+Value=0;
+}
+
+}
+
+void UpdateP1()
+{
+switch (P1Score)
+{
+  case 0:
+strip.setPixelColor(0,0,0,0);
+strip.setPixelColor(1,0,0,0);
+strip.setPixelColor(2,0,0,0);
+strip.setPixelColor(3,0,0,0);    
+strip.setPixelColor(4,0,0,0);
+strip.setPixelColor(5,0,0,0);
+strip.setPixelColor(6,0,0,0);
+strip.setPixelColor(7,0,0,0);
+strip.setPixelColor(8,0,0,0);
+strip.setPixelColor(9,0,0,0);
+  
+  strip.show();
+  break;
+  case 1: 
+  strip.setPixelColor(0,100,0,0);
+  strip.show();
+  break;
+  case 2: strip.setPixelColor(1,100,0,0);
+  strip.show();
+  break;
+case 3: strip.setPixelColor(2,100,0,0);
+  strip.show();
+  break;
+case 4: strip.setPixelColor(3,100,0,0);
+  strip.show();
+  break;
+  case 5: strip.setPixelColor(4,100,0,0);
+  strip.show();
+  break;
+  case 6:
+strip.setPixelColor(5,100,0,0);
+  strip.show();
+  break;
+case 7:
+strip.setPixelColor(6,100,0,0);
+  strip.show();
+  break;
+  case 8:
+strip.setPixelColor(7,100,0,0);
+  strip.show();
+  break;
+case 9:
+strip.setPixelColor(8,100,0,0);
+  strip.show();
+  break;
+case 10:
+strip.setPixelColor(9,100,0,0);
+  strip.show();
+  break;
+case 11:
+  strip.setPixelColor(0,100,0,0);
+strip.setPixelColor(1,0,0,0);
+strip.setPixelColor(2,0,0,0);
+strip.setPixelColor(3,0,0,0);
+strip.setPixelColor(4,0,0,0);
+strip.setPixelColor(5,0,0,0);
+strip.setPixelColor(6,0,0,0);
+strip.setPixelColor(7,0,0,0);
+strip.setPixelColor(8,0,0,0);
+strip.setPixelColor(9,0,0,0);
+  P1Score=1;
+  }
+  switch (P2Score)
+{
+  case 0:
+ strip.setPixelColor(10,0,0,0);
+ strip.setPixelColor(11,0,0,0);
+ strip.setPixelColor(12,0,0,0);
+ strip.setPixelColor(13,0,0,0);
+ strip.setPixelColor(14,0,0,0); 
+strip.setPixelColor(15,0,0,0); 
+strip.setPixelColor(16,0,0,0); 
+strip.setPixelColor(17,0,0,0); 
+strip.setPixelColor(18,0,0,0); 
+ strip.setPixelColor(19,0,0,0); 
+  strip.show();
+  break;
+  case 1: strip.setPixelColor(10,0,0,100);
+  strip.show();
+  break;
+  case 2: strip.setPixelColor(11,0,0,100);
+  strip.show();
+  break;
+case 3: strip.setPixelColor(12,0,0,100);
+  strip.show();
+  break;
+case 4: strip.setPixelColor(13,0,0,100);
+  strip.show();
+  break;
+  case 5: strip.setPixelColor(14,0,0,100);
+  strip.show();
+  break;
+  case 6:
+strip.setPixelColor(15,0,0,100); 
+  strip.show();
+  break;
+  case 7:
+strip.setPixelColor(16,0,0,100); 
+  strip.show();
+  break;
+  case 8:
+strip.setPixelColor(17,0,0,100); 
+  strip.show();
+  break;
+  case 9:
+strip.setPixelColor(18,0,0,100); 
+  strip.show();
+  break;
+  case 10:
+strip.setPixelColor(19,0,0,100); 
+  strip.show();
+  break;
+  case 11:
+  strip.setPixelColor(10,0,0,100);
+strip.setPixelColor(11,0,0,0);
+strip.setPixelColor(12,0,0,0);
+strip.setPixelColor(13,0,0,0);
+strip.setPixelColor(14,0,0,0);
+strip.setPixelColor(15,0,0,0);
+strip.setPixelColor(16,0,0,0);
+strip.setPixelColor(17,0,0,0);
+strip.setPixelColor(18,0,0,0);
+strip.setPixelColor(19,0,0,0);
+  P2Score=1;
+  }
+  strip.show(); 
+}
+
